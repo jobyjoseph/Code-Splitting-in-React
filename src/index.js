@@ -1,16 +1,16 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
-import LazyComponent from "./LazyComponent";
 
 const App = () => {
-
-  const [showLazy, setShowLazy] = useState(false);
+  const [LazyComponent, setLazyComponent] = useState(null);
 
   function showLazyComponent() {
-    setShowLazy(true);
+    import("./LazyComponent").then(component => {
+      setLazyComponent(component.default);
+    });
   }
 
-  return <h1>Hello React 16,Webpack 4 & Babel 7!<button onClick={showLazyComponent}>Click</button><span>{showLazy? <LazyComponent/> : null}</span></h1>;
+  return <h1>Hello React 16,Webpack 4 & Babel 7!<button onClick={showLazyComponent}>Click</button><span>{LazyComponent? LazyComponent : null}</span></h1>;
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));
